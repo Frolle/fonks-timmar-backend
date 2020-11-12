@@ -22,7 +22,6 @@ const slackKey = myArgs[2];
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-var hoursState = "";
 
 app.get("/", function(req, res){
   res.statusCode = 200;
