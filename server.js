@@ -1,8 +1,9 @@
 //jshint esversion:6
-const express = require("express");
+const express = require('express');
 const axios = require('axios')
 const bodyParser = require('body-parser');
-
+const fs=require('fs');
+const endOfLine = require('os').EOL;
 const app = express();
 
 const port = 8080;
@@ -34,7 +35,7 @@ app.post("/", function(req, res){
     res.setHeader('Content-Type', 'application/json');
     var userId = req.body.user_id;
     var hoursLeft = calculateWorkHoursAndReturnAsObject();
-    var message = "Kul att du frågar <@" + userId + "> Fonk har *" + hoursLeft.fonkHours + "* arbetstimmar kvar att jobba!";
+    var message = ranomdizeUserResponse(userId, hoursLeft.fonkHours, 'command-responses.txt');
     message = getSlackMessage(message);
     message.response_type = "in_channel";
     res.send(JSON.stringify(message));
@@ -58,7 +59,7 @@ function calculateWorkHoursAndReturnAsObject() {
                 break;
         }
         today.setHours(17);
-        today.setMinutes(0); 
+        today.setMinutes(0);
     } // Ugly fix to avoid counting weekends as working hours if you're watching the site on the weekend.
 
     var now = today.getTime();
@@ -96,10 +97,10 @@ function randomlyPostToSlack(currentHours, slackKey) {
         setTimeout(randomlyPostToSlack, rand, hoursLeft, slackKey);
         return;
     }
-    var slackMessage = getSlackMessage("Skulle bara poppa in och säga att Fonk har *" + hoursLeft.fonkHours + "* arbetstimmar kvar på Consilium!");
+    var message = randomizeUserResponse("_", hoursLeft.fonkHours, 'pop-in-responses.txt');
+    var slackMessage = getSlackMessage(message);
 
-    axios
-        .post(slackKey, slackMessage)
+    axios.post(slackKey, slackMessage)
         .catch(error => {
         console.error(error)
     });
@@ -107,10 +108,6 @@ function randomlyPostToSlack(currentHours, slackKey) {
 };
 
 function getSlackMessage(message) {
-    if(message === undefined){
-        var hoursLeft = calculateWorkHoursAndReturnAsObject();
-        message = "Fonk har *" + hoursLeft.fonkHours + "* timmar kvar att jobba!";
-    }
     var slackMessage = {
         "blocks": [
             {
@@ -122,4 +119,10 @@ function getSlackMessage(message) {
             }
         ]};
     return slackMessage;
+};
+
+function randomizeUserResponse(userId, fonkHours, fileName) {
+  var lines = fs.readFileSync(fileName, 'utf8').split(endOfLine);
+  var randomIndex = Math.floor(Math.random() * lines.length);
+  return lines[randomIndex].replace("%USER%", `<@${userId}>`).replace("%HOURS%", `*${fonkHours}*`);
 };
