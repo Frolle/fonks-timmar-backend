@@ -35,7 +35,7 @@ app.post("/", function(req, res){
     res.setHeader('Content-Type', 'application/json');
     var userId = req.body.user_id;
     var hoursLeft = calculateWorkHoursAndReturnAsObject();
-    var message = ranomdizeUserResponse(userId, hoursLeft.fonkHours, 'command-responses.txt');
+    var message = ranomdizeUserResponse(userId, hoursLeft.fonkHours, 'resources/command-responses.txt');
     message = getSlackMessage(message);
     message.response_type = "in_channel";
     res.send(JSON.stringify(message));
@@ -97,7 +97,7 @@ function randomlyPostToSlack(currentHours, slackKey) {
         setTimeout(randomlyPostToSlack, rand, hoursLeft, slackKey);
         return;
     }
-    var message = randomizeUserResponse("_", hoursLeft.fonkHours, 'pop-in-responses.txt');
+    var message = randomizeUserResponse("_", hoursLeft.fonkHours, 'resources/pop-in-responses.txt');
     var slackMessage = getSlackMessage(message);
 
     axios.post(slackKey, slackMessage)

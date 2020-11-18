@@ -1,1 +1,0 @@
-Kul att du frågar %USER% Fonk har %HOURS% arbetstimmar kvar att jobba!

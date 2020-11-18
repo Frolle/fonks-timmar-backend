@@ -1,0 +1,5 @@
+Skulle bara poppa in och säga att Fonk har %HOURS% arbetstimmar kvar på Consilium!
+Men tja böyz, dags för lite rapportering av Fonks arbetade timmar. Han har %HOURS% timmar kvar att kämpa sig igenom!
+ANNARS DÅ!? ELLE?! Fonks timmar: %HOURS%
+Hörde det var någon som var intresserad av att veta antalet timmar Fonk ska jobba innan han slutar. Det är %HOURS% stycken.
+BAP-BAP-BOREY! %HOURS% arbetstimmar återstår innan Fonk går på permanent ledighet ifrån Consilium.
