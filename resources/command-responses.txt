@@ -3,3 +3,7 @@ Har du verkligen inget bättre för dig %USER%? Han har %HOURS% timmar kvar.
 Kan berätta för dig %USER% att Fonk har %HOURS% timmar kvar att döna igenom.
 Ät en körv %USER%. Fonkalongen har %HOURS% goa, långa timmar kvar att dela med Joris.
 Mäster %USER%. Fonk har i detta läge %HOURS% timmar kvar.
+Äääeee men misutah %USER%, det är ju för fasiken bara %HOURS% arbetstimmar kvar fö fan!
+Aomen mister %USER%, bara %HOURS% arbetstimmar kvar.
+Kom an bah %USER%, ska weska te daj om %HOURS% arbetstimmar.
+Om du bara hade gått in på http://fonk.simon-fransson.se %USER%, hade du vetat att jag bara har %HOURS% arbetstimmar kvar!
