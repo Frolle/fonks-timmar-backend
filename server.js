@@ -27,14 +27,14 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.get("/", function(req, res){
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(calculateWorkHoursAndReturnAsObject()));
+    res.send(JSON.stringify(getWorkHours()));
 });
 
 app.post("/", function(req, res){
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     var userId = req.body.user_id;
-    var hoursLeft = calculateWorkHoursAndReturnAsObject();
+    var hoursLeft = getWorkHours();
     var message = randomizeUserResponse(userId, hoursLeft.fonkHours, 'resources/command-responses.txt');
     message = getSlackMessage(message);
     message.response_type = "in_channel";
