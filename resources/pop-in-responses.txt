@@ -3,3 +3,8 @@ Men tja böyz, dags för lite rapportering av Fonks arbetade timmar. Han har %HO
 ANNARS DÅ!? ELLE?! Fonks timmar: %HOURS%
 Hörde det var någon som var intresserad av att veta antalet timmar Fonk ska jobba innan han slutar. Det är %HOURS% stycken.
 BAP-BAP-BOREY! %HOURS% arbetstimmar återstår innan Fonk går på permanent ledighet ifrån Consilium.
+Någon som har sett Jorreborre? Ville bara tala om för honom att Fonk har %HOURS% arbetstimmar kvar på Consilium!
+HOOODELDOOOO! Fonk lämnar Consilium om %HOURS% arbetstimmar!
+Fasen alltså, bara %HOURS% arbetstimmar kvar av Jorreborre-backloggen för misutah Fonk!
+Aomen det går bra nu böyz! %HOURS% arbetstimmar kvar för Fonkan.
+Fun fact: %HOURS% arbetstimmar återstår på Consilium för Mister Fonk.

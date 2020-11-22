@@ -35,7 +35,7 @@ app.post("/", function(req, res){
     res.setHeader('Content-Type', 'application/json');
     var userId = req.body.user_id;
     var hoursLeft = calculateWorkHoursAndReturnAsObject();
-    var message = ranomdizeUserResponse(userId, hoursLeft.fonkHours, 'resources/command-responses.txt');
+    var message = randomizeUserResponse(userId, hoursLeft.fonkHours, 'resources/command-responses.txt');
     message = getSlackMessage(message);
     message.response_type = "in_channel";
     res.send(JSON.stringify(message));
