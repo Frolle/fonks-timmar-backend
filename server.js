@@ -46,9 +46,29 @@ app.listen(port, hostname, function(){
     randomlyPostToSlack("", slackKey);
 });
 
-function calculateWorkHoursAndReturnAsObject() {
+function randomlyPostToSlack(currentHours, slackKey) {
+    var halfHourInMs = 18e5;
+    var twoHoursInMs = 72e5;
+    var rand = Math.floor(Math.random() * (twoHoursInMs - halfHourInMs) + halfHourInMs);
+    var hoursLeft = getWorkHours();
+    if (currentHours && hoursLeft.fonkHours === currentHours.fonkHours) {
+        setTimeout(randomlyPostToSlack, rand, hoursLeft, slackKey);
+        return;
+    }
+    var message = randomizeUserResponse("_", hoursLeft.fonkHours, 'resources/pop-in-responses.txt');
+    var slackMessage = getSlackMessage(message);
+
+    axios.post(slackKey, slackMessage)
+        .catch(error => {
+        console.error(error)
+    });
+    setTimeout(randomlyPostToSlack, rand, hoursLeft, slackKey);
+};
+
+function getWorkHours() {
     var countDownDate = new Date("Dec 18, 2020 17:00").getTime();
     today = new Date();
+    var isWeekend = false;
     if(today.getDay() == 0 || today.getDay() == 6 || (today.getDay() == 5 && today.getHours() >= 17 && today.getMinutes >= 1)){
         switch(today.getDay()) {
             case 0:
@@ -60,14 +80,20 @@ function calculateWorkHoursAndReturnAsObject() {
         }
         today.setHours(17);
         today.setMinutes(0);
+        isWeekend = true;
     } // Ugly fix to avoid counting weekends as working hours if you're watching the site on the weekend.
+    
+    return calculateWorkHours(isWeekend);
+}
 
+function calculateWorkHours(isWeekend) {
     var now = today.getTime();
 
     // Find the distance between now and the count down date
     var distance = countDownDate - now;
 
     var weeks = Math.floor(distance/(1000*60*60*24*7)); // FLoor because we don't want to include the last weekend.
+    weeks = isWeekend ? weeks + 1: weeks; // Another ugly fix to have it display correctly even during weekends.
 
     var workDays = Math.ceil(distance/(1000*60*60*24)) - (weeks*2); // Exclude weekends from the work days.
 
@@ -88,25 +114,6 @@ function calculateWorkHoursAndReturnAsObject() {
     return {fonkHours: workHours + ""};
 }
 
-function randomlyPostToSlack(currentHours, slackKey) {
-    var halfHourInMs = 18e5;
-    var twoHoursInMs = 72e5;
-    var rand = Math.floor(Math.random() * (twoHoursInMs - halfHourInMs) + halfHourInMs);
-    var hoursLeft = calculateWorkHoursAndReturnAsObject();
-    if (currentHours && hoursLeft.fonkHours === currentHours.fonkHours) {
-        setTimeout(randomlyPostToSlack, rand, hoursLeft, slackKey);
-        return;
-    }
-    var message = randomizeUserResponse("_", hoursLeft.fonkHours, 'resources/pop-in-responses.txt');
-    var slackMessage = getSlackMessage(message);
-
-    axios.post(slackKey, slackMessage)
-        .catch(error => {
-        console.error(error)
-    });
-    setTimeout(randomlyPostToSlack, rand, hoursLeft, slackKey);
-};
-
 function getSlackMessage(message) {
     var slackMessage = {
         "blocks": [
@@ -122,7 +129,7 @@ function getSlackMessage(message) {
 };
 
 function randomizeUserResponse(userId, fonkHours, fileName) {
-  var lines = fs.readFileSync(fileName, 'utf8').split(endOfLine);
-  var randomIndex = Math.floor(Math.random() * lines.length);
-  return lines[randomIndex].replace("%USER%", `<@${userId}>`).replace("%HOURS%", `*${fonkHours}*`);
+    var lines = fs.readFileSync(fileName, 'utf8').split(endOfLine);
+    var randomIndex = Math.floor(Math.random() * lines.length);
+    return lines[randomIndex].replace("%USER%", `<@${userId}>`).replace("%HOURS%", `*${fonkHours}*`);
 };
