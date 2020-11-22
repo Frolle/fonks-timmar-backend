@@ -83,10 +83,10 @@ function getWorkHours() {
         isWeekend = true;
     } // Ugly fix to avoid counting weekends as working hours if you're watching the site on the weekend.
     
-    return calculateWorkHours(isWeekend);
+    return calculateWorkHours(countDownDate, today, isWeekend);
 }
 
-function calculateWorkHours(isWeekend) {
+function calculateWorkHours(countDownDate, today, isWeekend) {
     var now = today.getTime();
 
     // Find the distance between now and the count down date
