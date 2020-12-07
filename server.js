@@ -68,8 +68,7 @@ function randomlyPostToSlack(currentHours, slackKey) {
 function getWorkHours() {
     var countDownDate = new Date("Dec 18, 2020 17:00").getTime();
     today = new Date();
-    var isWeekend = false;
-    if(today.getDay() == 0 || today.getDay() == 6 || (today.getDay() == 5 && today.getHours() >= 17 && today.getMinutes >= 1)){
+    if(today.getDay() == 0 || today.getDay() == 6 || (today.getDay() == 5 && today.getHours() >= 17 && today.getMinutes() >= 1)){
         switch(today.getDay()) {
             case 0:
                 today.setDate(today.getDate() - 2);
@@ -80,20 +79,17 @@ function getWorkHours() {
         }
         today.setHours(17);
         today.setMinutes(0);
-        isWeekend = true;
     } // Ugly fix to avoid counting weekends as working hours if you're watching the site on the weekend.
-    
-    return calculateWorkHours(countDownDate, today, isWeekend);
+    return calculateWorkHours(countDownDate, today);
 }
 
-function calculateWorkHours(countDownDate, today, isWeekend) {
+function calculateWorkHours(countDownDate, today) {
     var now = today.getTime();
 
     // Find the distance between now and the count down date
     var distance = countDownDate - now;
 
     var weeks = Math.floor(distance/(1000*60*60*24*7)); // FLoor because we don't want to include the last weekend.
-    weeks = isWeekend ? weeks + 1: weeks; // Another ugly fix to have it display correctly even during weekends.
 
     var workDays = Math.ceil(distance/(1000*60*60*24)) - (weeks*2); // Exclude weekends from the work days.
 
